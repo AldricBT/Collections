@@ -74,12 +74,12 @@ namespace Collections
                             Console.WriteLine("Insert");
                             break;                            
                         default:
-                            //Mas_1[pos] = A;
-                            //Mas_2[pos] = A;
-                            //Console.WriteLine("Index");
-                            Mas_1.Clear();
-                            Mas_2.Clear();
-                            Console.WriteLine("Clear");
+                            Mas_1[pos] = A;
+                            Mas_2[pos] = A;
+                            Console.WriteLine("Index");
+                            //Mas_1.Clear();
+                            //Mas_2.Clear();
+                            //Console.WriteLine("Clear");
                             break;
                     }
                     Mas_1.Print();

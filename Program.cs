@@ -80,6 +80,7 @@ namespace Collections
                             Mas_1.Clear();
                             Mas_2.Clear();
                             Console.WriteLine("Clear");
+                            Console.WriteLine("New");
                             break;
                     }
                     Mas_1.Print();

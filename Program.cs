@@ -18,7 +18,7 @@ namespace Collections
             {
                 for (int j = 0; j < Mas_1.Count; j++)
                 {
-                    if (Mas_1.View(j) != Mas_2.View(j))
+                    if (Mas_1[j] != Mas_2[j])
                     {
                         return false;
                     }
@@ -37,7 +37,7 @@ namespace Collections
             }
         }
         static void Main(string[] args)
-        {
+        {           
             //Автотест
             MasList Mas_1 = new MasList();
             ChainList Mas_2 = new ChainList();            

@@ -4,28 +4,18 @@ using System.Text;
 
 namespace Collections
 {
-    class MasList
+    class MasList : BaseList
     {
         /// <summary>
         /// Поля
         /// </summary>
-        private int count = 0;
-        private int[] data = null;
         private int maslength = 0;  //длина выделенной памяти под массив
-
-        /// <summary>
-        /// Количетво элементов массива
-        /// </summary>
-        public int Count
-        {
-            get { return count; }
-            private set { count = value; }
-        }
-        public int[] Data
-        {
-            get { return data; }
-            set { data = value; }
-        }
+                
+        //public override int[] Data
+        //{
+        //    get { return data; }
+        //    set { data = value; }
+        //}
         private int MasLength
         {
             get { return maslength; }
@@ -36,7 +26,7 @@ namespace Collections
         /// </summary>
         /// <param name="index">Индекс</param>
         /// <returns>Элемент массива</returns>
-        public int this[int index]
+        public override int this[int index]
         {
             get
             {
@@ -77,37 +67,24 @@ namespace Collections
             }
             
         }
-        /// <summary>
-        /// Вывод всего массива
-        /// </summary>        
-        public void Print()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                Console.Write($"{Data[i]}; ");
-            }            
-        }
+        
         /// <summary>
         /// Добавление элемента в конец массива
         /// </summary>
         /// <param name="Elem">Элемент</param>
-        public void Add(params int[] Elem)
+        public override void Add(int Elem)
         {            
-            for (int i = 0; i < Elem.Length; i++)
+            if (MasLength == Count)
             {
-                if (MasLength == Count)
-                {
-                    Extend();
-                }
-                Data[Count] = Elem[i];
-                Count++;
-            }            
-            
+                Extend();
+            }
+            Data[Count] = Elem;
+            Count++;            
         }
         /// <summary>
         /// Удаление массива
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
             MasLength = 0;
             Count = 0;
@@ -117,7 +94,7 @@ namespace Collections
         /// Удаление элемента по индексу
         /// </summary>
         /// <param name="pos">Индекс</param>
-        public void Delete(int pos)
+        public override void Delete(int pos)
         {
             if ((Count == 1)&&(pos == 0))
             {
@@ -146,7 +123,7 @@ namespace Collections
         /// </summary>
         /// <param name="Elem">Элемент массива</param>
         /// <param name="pos">Индекс позиции</param>
-        public void Insert(int Elem, int pos)
+        public override void Insert(int Elem, int pos)
         {
             if ((pos <= Count)&&(pos >= 0))
             {
@@ -167,14 +144,6 @@ namespace Collections
             }
             
         }
-        /// <summary>
-        /// Возвращает элемент ячейки
-        /// </summary>
-        /// <param name="pos">Индекс ячейки</param>
-        /// <returns>Элемент</returns>
-        public int View(int pos)
-        {
-            return Data[pos];
-        }
+       
     }
 }

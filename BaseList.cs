@@ -42,7 +42,7 @@ namespace Collections
         /// <summary>
         /// Вывод списка на экран
         /// </summary>
-        public void Print()
+        public virtual void Print()
         {
             for (int i = 0; i < Count; i++)
             {

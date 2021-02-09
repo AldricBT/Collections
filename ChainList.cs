@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Collections
 {
-    class ChainList
+    class ChainList : BaseList
     {
-        private int count = 0;
+        
         private class Elem
         {
             public Elem(int data)
@@ -17,7 +17,7 @@ namespace Collections
             public Elem Next { get; set; }            
         }
 
-        public int this[int index]
+        public override int this[int index]
         {
             get
             {
@@ -38,12 +38,7 @@ namespace Collections
         }
 
         private Elem first = null; 
-
-        public int Count
-        {
-            get { return count; }
-            private set { count = value; }
-        }
+               
 
         /// <summary>
         /// Нахождение элемента (значения и на что он ссылается) по индексу
@@ -64,7 +59,7 @@ namespace Collections
         /// Добавляет элемент в конец массива
         /// </summary>
         /// <param name="A">Элемент</param>
-        public void Add(int A)
+        public override void Add(int A)
         {
             Elem elem = new Elem(A);    //создаем ссылку на новый элемент
             if (first == null)  //если список пуст
@@ -81,7 +76,7 @@ namespace Collections
         /// Удаляет элемент с выбранным индексом
         /// </summary>
         /// <param name="pos">Индекс</param>
-        public void Delete(int pos)
+        public override void Delete(int pos)
         {
             if ((pos == 0) && (Count > 1))
             {
@@ -112,7 +107,7 @@ namespace Collections
         /// </summary>
         /// <param name="A">Элемент списка</param>
         /// <param name="pos">Индекс позиции</param>
-        public void Insert(int A, int pos)
+        public override void Insert(int A, int pos)
         {
             if (pos == 0)
             {
@@ -138,9 +133,49 @@ namespace Collections
             }
         }
         /// <summary>
+        /// Меняет местами два элемента списка
+        /// </summary>
+        /// <param name="i1">Индекс первого элемента</param>
+        /// <param name="i2">Индекс второго элемента</param>
+        private void Swap(int i1, int i2)
+        {
+            int mem = Find(i1).Data;
+            if (i1 == 0)
+            {
+                first = Find(i2);
+                Insert(mem, i2);
+                Count--;
+            }
+            else
+            {               
+                Find(i1 - 1).Next = Find(i2);
+                Insert(mem, i2);
+                Count--;
+            }
+            
+        }
+        /// <summary>
+        /// Сортировка списка пузырьком
+        /// </summary>
+        public override void Sort()
+        {
+            int inc = 0;
+
+            while (inc < Count - 1)
+            {
+                inc++;
+                if (Find(inc - 1).Data > Find(inc).Data)
+                {
+                    Swap(inc - 1, inc);
+                    inc = 0;
+                }
+                
+            }
+        }
+        /// <summary>
         /// Удаление списка
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
             Count = 0;
             first = null;
@@ -148,7 +183,7 @@ namespace Collections
         /// <summary>
         /// Вывод всего списка
         /// </summary>
-        public void Print()
+        public override void Print()
         {
             Elem current = first;   //текущий элемент становится первым
             while (current != null) //пока текущий не станет ссылаться на null (пока он не станет последним)
@@ -157,14 +192,6 @@ namespace Collections
                 current = current.Next;
             }
         }
-        /// <summary>
-        /// Возвращает элемент ячейки
-        /// </summary>
-        /// <param name="pos">Индекс ячейки</param>
-        /// <returns>Элемент</returns>
-        public int View(int pos)
-        {
-            return Find(pos).Data;
-        }
+      
     }
 }

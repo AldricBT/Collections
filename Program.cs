@@ -37,7 +37,8 @@ namespace Collections
             }
         }
         static void Main(string[] args)
-        {           
+        {
+            
             //Автотест
             MasList Mas_1 = new MasList();
             ChainList Mas_2 = new ChainList();            
@@ -51,7 +52,7 @@ namespace Collections
             {
                 if (Check(Mas_1,Mas_2))
                 {
-                    operate = rand.Next(4);
+                    operate = rand.Next(5);
                     Thread.Sleep(1);
                     A = rand.Next(50) - 25;
                     Thread.Sleep(1);
@@ -72,7 +73,12 @@ namespace Collections
                             Mas_1.Insert(A, pos);
                             Mas_2.Insert(A, pos);
                             Console.WriteLine("Insert");
-                            break;                            
+                            break;
+                        case 3:
+                            Mas_1.Sort();
+                            Mas_2.Sort();
+                            Console.WriteLine("Sort");
+                            break;
                         default:
                             Mas_1[pos] = A;
                             Mas_2[pos] = A;

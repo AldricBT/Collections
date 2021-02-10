@@ -10,12 +10,7 @@ namespace Collections
         /// Поля
         /// </summary>
         private int maslength = 0;  //длина выделенной памяти под массив
-                
-        //public override int[] Data
-        //{
-        //    get { return data; }
-        //    set { data = value; }
-        //}
+        
         private int MasLength
         {
             get { return maslength; }
@@ -144,6 +139,19 @@ namespace Collections
             }
             
         }
-       
+        /// <summary>
+        /// Заменяет элементы экземпляра списка элементами нового списка
+        /// </summary>
+        /// <param name="list">Новый список</param>
+        public override void Assign(BaseList list)
+        {
+            base.Assign(list);
+        }
+        public override BaseList Clone()
+        {
+            MasList a = new MasList();
+            a.Assign(this);
+            return a;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,6 +9,7 @@ namespace Collections
     {
         private int count = 0;
         private int[] data = null;
+        private int errorCount = 0;
         public int Count
         {
             get { return count; }
@@ -17,6 +19,11 @@ namespace Collections
         {
             get { return data; }
             set { data = value; }
+        }
+        public int ErrorCount
+        {
+            get { return errorCount; }
+            private set { errorCount = value; }
         }
 
         abstract public int this[int index] { get; set; }
@@ -42,12 +49,23 @@ namespace Collections
         /// <summary>
         /// Вывод списка на экран
         /// </summary>
-        public virtual void Print()
+        public void Print()
         {
-            for (int i = 0; i < Count; i++)
+            if (this is MasList)
             {
-                Console.Write($"{Data[i]}; ");
+                for (int i = 0; i < Count; i++)
+                {
+                    Console.Write($"{Data[i]}; ");
+                }
             }
+            else if (this is ChainList)
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    Console.Write($"{(this as ChainList)[i]}; ");
+                }
+            }
+            
         }
 
         abstract public void Clear();
@@ -68,11 +86,11 @@ namespace Collections
 
             while (left < right)
             {
-                while ((mass[left] <= mass[pivot])&&(left < right))
+                while ((mass[left] <= mass[pivot]) && (left < right))
                 {//находим число слева больше опорного
                     left++;
                 }
-                while ((mass[right] >= mass[pivot])&&(left < right))
+                while ((mass[right] >= mass[pivot]) && (left < right))
                 {//находим число справа меньше опорного
                     right--;
                 }
@@ -96,7 +114,7 @@ namespace Collections
                 Qsort(mass, left_b, left);
             }
 
-            
+
 
         }
         /// <summary>
@@ -106,8 +124,110 @@ namespace Collections
         {
             Qsort(Data, 0, Count - 1);
         }
-        
+        /// <summary>
+        /// Заменяет элементы текущего списка, элементами другого списка
+        /// </summary>
+        /// <param name="list">Другой список</param>
+        public virtual void Assign(BaseList list)
+        {
+            Count = list.Count;
+            Data = new int[Count];
+            for (int i = 0; i < Count; i++)
+            {                
+                if (list is MasList)
+                {
+                    Data[i] = list.Data[i];
+                }
+                else if (list is ChainList)
+                {   
+                    Data[i] = (list as ChainList)[i];
+                }
+            }
+        }
+        /// <summary>
+        /// Заменяет элементы другого списка элементами списка
+        /// </summary>
+        /// <param name="list">Другой список</param>
+        public void AssignTo(BaseList list)
+        {
+            list.Assign(this);
+        }
+        /// <summary>
+        /// Копирует список
+        /// </summary>
+        /// <returns></returns>
+        public abstract BaseList Clone();
 
-
+        /// <summary>
+        /// Сохранение списка в файл
+        /// </summary>
+        /// <param name="filename">Имя файла</param>
+        public void Save(string filename)
+        {
+            string path = @"D:\Study\Технологии программирования\Lab_1\";
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(path + filename))
+                {
+                    if (this is MasList)
+                    {
+                        for (int i = 0; i < Count; i++)
+                        {
+                            sw.Write($"{Data[i]} ");
+                        }
+                    }
+                    else if (this is ChainList)
+                    {
+                        for (int i = 0; i < Count; i++)
+                        {
+                            sw.Write($"{(this as ChainList)[i]} ");
+                        }
+                    }
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ErrorCount++;
+            }
+        }
+        /// <summary>
+        /// Загрузка списка из файла
+        /// </summary>
+        /// <param name="filename">Имя файла</param>
+        public void Load(string filename)
+        {
+            string path = @"D:\Study\Технологии программирования\Lab_1\";
+            try
+            {
+                using (StreamReader sr = new StreamReader(path + filename))
+                {
+                    string line = null;
+                    char[] charSeparators = new char[] { ' ', ',', '.', ';' };
+                    while (!sr.EndOfStream)
+                    {
+                        line += sr.ReadLine() + " ";
+                    }
+                    Console.WriteLine(line);
+                    Console.WriteLine();
+                    string[] smass = line.Split(charSeparators);
+                    for (int i = 0; i < smass.Length; i++)
+                    {
+                        if (smass[i] != "")
+                        {
+                            this.Add(int.Parse(smass[i]));
+                            Console.Write(smass[i] + " ");
+                        }                        
+                    }
+                }
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ErrorCount++;
+            }
+        }
     }
 }

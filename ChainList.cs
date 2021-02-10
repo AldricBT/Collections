@@ -179,19 +179,25 @@ namespace Collections
         {
             Count = 0;
             first = null;
-        }
+        }        
         /// <summary>
-        /// Вывод всего списка
+        /// Заменяет элементы экземпляра списка элементами нового списка
         /// </summary>
-        public override void Print()
+        /// <param name="list">Новый список</param>
+        public override void Assign(BaseList list)
         {
-            Elem current = first;   //текущий элемент становится первым
-            while (current != null) //пока текущий не станет ссылаться на null (пока он не станет последним)
+            Clear();
+            for (int i = 0; i < list.Count; i++)
             {
-                Console.Write(current.Data + "; ");
-                current = current.Next;
+                Add(list[i]);
             }
         }
-      
+
+        public override BaseList Clone()
+        {
+            ChainList a = new ChainList();
+            a.Assign(this);
+            return a;
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Collections
         public int ErrorCount
         {
             get { return errorCount; }
-            private set { errorCount = value; }
+            protected set { errorCount = value; }
         }
 
         abstract public int this[int index] { get; set; }
@@ -225,7 +225,7 @@ namespace Collections
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                //Console.WriteLine(e.Message);
                 ErrorCount++;
             }
         }

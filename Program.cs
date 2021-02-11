@@ -37,16 +37,27 @@ namespace Collections
             }
         }
         static void Main(string[] args)
-        {            
-            //Тестирование метода Save and Load
-            BaseList b = new MasList();
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    b.Add(i + 10);
-            //}            
-            b.Load("dat");
-            Console.WriteLine();            
-            b.Print();
+        {
+            //BaseList a = new MasList();
+            //a.Add(1);
+            //a.Add(2);
+            //a.Add(3);
+            //a.Print();
+            //a.Delete(3);
+            //Console.WriteLine();
+            //a.Print();
+            //Console.WriteLine($"\n{a.ErrorCount}");
+
+            ////Тестирование метода Save and Load
+            //BaseList b = new MasList();
+            ////for (int i = 0; i < 10; i++)
+            ////{
+            ////    b.Add(i + 10);
+            ////}            
+            //b.Load("dat");
+            //Console.WriteLine();
+            //b.Print();
+            //Console.WriteLine($"\n{b.ErrorCount}");
 
             ////Тестирование метода Clone
             //BaseList b = new MasList();
@@ -77,7 +88,6 @@ namespace Collections
             //b.AssignTo(a);
             //a.Print();
 
-            return;
             //Автотест методов Add, Delete, Insert, Sort + индексатор
             MasList Mas_1 = new MasList();
             ChainList Mas_2 = new ChainList();            
@@ -139,7 +149,9 @@ namespace Collections
                     break;
                 }
                 Right(i, test_length);
-            }           
+            }
+            Console.WriteLine($"\n{Mas_1.ErrorCount}");
+            Console.WriteLine($"\n{Mas_2.ErrorCount}");
         }
     }
 }

@@ -46,12 +46,19 @@ namespace Collections
         /// <param name="pos">Индекс</param>
         /// <returns>Элемент (значение и ссылку на следующий)</returns>
         private Elem Find(int pos)
-        {
+        {//нет смысла использовать try-catch так как сюда уже должны подаваться
             Elem current = first;
             for (int i = 0; i < pos; i++)
             {
-                current = current.Next;
-            }
+                if (current != null)
+                {
+                    current = current.Next;
+                }
+                else
+                {
+                    throw new Exception();                    
+                }                        
+            }            
             return current;
         }
 
@@ -78,28 +85,31 @@ namespace Collections
         /// <param name="pos">Индекс</param>
         public override void Delete(int pos)
         {
-            if ((pos == 0) && (Count > 1))
+            try
             {
-                first = Find(1);    //для удаления 0 элемента (при условии, что он не единственный), 0ый становится 1ый
-                Count--;
+                if ((pos == 0) && (Count > 1))
+                {
+                    first = Find(1);    //для удаления 0 элемента (при условии, что он не единственный), 0ый становится 1ый
+                    Count--;
+                }
+                else if (((pos == 0) && (Count == 1)))
+                {
+                    Clear();    //если элемент единственный, то удаляется весь список
+                }
+                else if (pos == Count - 1)
+                {
+                    Find(pos - 1).Next = null;
+                    Count--;
+                }
+                else
+                {
+                    Find(pos - 1).Next = Find(pos + 1);
+                    Count--;
+                }
             }
-            else if (((pos == 0) && (Count == 1)))            
+            catch (Exception)
             {
-                Clear();    //если элемент единственный, то удаляется весь список
-            }
-            else if (pos == Count - 1)
-            {
-                Find(pos - 1).Next = null;
-                Count--;
-            }
-            else if ((pos > 0) && (pos < Count))
-            {
-                Find(pos - 1).Next = Find(pos + 1);
-                Count--;
-            }
-            else
-            {
-                Console.WriteLine("Операция Delete не выполнена (неправильно указан индекс)");
+                ErrorCount++;
             }
         }
         /// <summary>
@@ -109,28 +119,31 @@ namespace Collections
         /// <param name="pos">Индекс позиции</param>
         public override void Insert(int A, int pos)
         {
-            if (pos == 0)
+            try
             {
-                Elem current = new Elem(A);
-                current.Next = first;
-                first = current;
-                Count++;
+                if (pos == 0)
+                {
+                    Elem current = new Elem(A);
+                    current.Next = first;
+                    first = current;
+                    Count++;
+                }
+                else if (pos == Count)
+                {
+                    Add(A);
+                }
+                else
+                {
+                    Elem current = new Elem(A);
+                    current.Next = Find(pos);
+                    Find(pos - 1).Next = current;
+                    Count++;
+                }
             }
-            else if (pos == Count)
+            catch (Exception)
             {
-                Add(A);
-            }
-            else if ((pos > 0) && (pos < Count))
-            {
-                Elem current = new Elem(A);
-                current.Next = Find(pos);
-                Find(pos - 1).Next = current;
-                Count++;
-            }
-            else
-            {
-                Console.WriteLine("Операция Insert не выполнена (неправильно указан индекс)");
-            }
+                ErrorCount++;
+            }            
         }
         /// <summary>
         /// Меняет местами два элемента списка

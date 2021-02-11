@@ -91,27 +91,34 @@ namespace Collections
         /// <param name="pos">Индекс</param>
         public override void Delete(int pos)
         {
-            if ((Count == 1)&&(pos == 0))
+            try
             {
-                Clear();
-            }
-            else if (pos == Count - 1)
-            {                
-                Count--;
-            }
-            else if ((pos < Count) && (pos >= 0))
-            {
-                for (int i = pos; i < Count - 1; i++)
+                if ((Count == 1) && (pos == 0))
                 {
-                    Data[i] = Data[i + 1];
+                    Clear();
                 }
-                Count--;
+                else if (pos == Count - 1)
+                {
+                    Count--;
+                }
+                else if ((pos < Count) && (pos >= 0))
+                {
+                    for (int i = pos; i < Count - 1; i++)
+                    {
+                        Data[i] = Data[i + 1];
+                    }
+                    Count--;
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
-            else
+            catch (Exception)
             {
-                Console.WriteLine("Операция Delete не выполнена (неправильно указан индекс)");
+                ErrorCount++;
             }
-           
+
         }
         /// <summary>
         /// Вставка элемента массива в позицию, определяемую индексом
@@ -120,23 +127,31 @@ namespace Collections
         /// <param name="pos">Индекс позиции</param>
         public override void Insert(int Elem, int pos)
         {
-            if ((pos <= Count)&&(pos >= 0))
+            try
             {
-                if (MasLength == Count)
+                if ((pos <= Count) && (pos >= 0))
                 {
-                    Extend();
+                    if (MasLength == Count)
+                    {
+                        Extend();
+                    }
+                    for (int i = Count - 1; i >= pos; i--)
+                    {
+                        Data[i + 1] = Data[i];
+                    }
+                    Data[pos] = Elem;
+                    Count++;
                 }
-                for (int i = Count - 1; i >= pos; i--)
+                else
                 {
-                    Data[i + 1] = Data[i];
+                    throw new Exception();
                 }
-                Data[pos] = Elem;
-                Count++;
             }
-            else
+            catch (Exception)
             {
-                Console.WriteLine("Операция Insert не выполнена (неправильно указан индекс)");
+                ErrorCount++;
             }
+           
             
         }
         /// <summary>
